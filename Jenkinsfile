@@ -1,18 +1,24 @@
 pipeline {
     agent any
+    tools {
+        jdk 'JDK17'      // Name you gave your JDK in Jenkins Tools config
+        maven 'Maven3'   // Name you gave your Maven in Jenkins Tools config
+    }
     stages {
         stage('Checkout') {
-            steps { checkout scm }
+            steps {
+                checkout scm
+            }
         }
         stage('Build & Test') {
             steps {
                 script {
                     if (isUnix()) {
-                        sh 'mvn -B clean test'
-                        sh 'mvn -B package'
+                        sh 'mvn clean test'
+                        sh 'mvn package'
                     } else {
-                        bat 'mvn -B clean test'
-                        bat 'mvn -B package'
+                        bat 'mvn clean test'
+                        bat 'mvn package'
                     }
                 }
             }
@@ -25,5 +31,6 @@ pipeline {
         }
     }
 }
+
 
 
